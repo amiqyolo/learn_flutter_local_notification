@@ -20,14 +20,43 @@ class FlutterLocalNotification {
   static onTap(NotificationResponse notificationResponse) {}
 
   static void showBasicNotification() async {
-    NotificationDetails details = NotificationDetails(
-      android: AndroidNotificationDetails("channel_1", "Basic Notification"),
+    AndroidNotificationDetails android = AndroidNotificationDetails(
+      "channel_1",
+      "Basic Notification",
+      priority: Priority.high,
+      importance: Importance.max,
     );
+    NotificationDetails details = NotificationDetails(android: android);
     await flutterLocalNotificationsPlugin.show(
-      0,
+      1,
       "Dunia pasti berputar",
       "Tapi apakah itu benar",
+      payload: "Payload Data",
       details,
     );
+  }
+
+  static void showRepeatedNotification() async {
+    AndroidNotificationDetails android = AndroidNotificationDetails(
+      "channel_2",
+      "Repeated Notification",
+      channelDescription: "repeating description",
+      priority: Priority.high,
+      importance: Importance.max,
+    );
+    NotificationDetails details = NotificationDetails(android: android);
+    await flutterLocalNotificationsPlugin.periodicallyShow(
+      2,
+      "Dunia pasti berputar",
+      "Tapi apakah itu sudah benar?",
+      payload: "Payload Data",
+      RepeatInterval.everyMinute,
+      details,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    );
+  }
+
+  static void cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
   }
 }

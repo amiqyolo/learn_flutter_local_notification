@@ -38,7 +38,17 @@ class HomePage extends StatelessWidget {
             onTap: () => FlutterLocalNotification.showBasicNotification(),
             leading: Icon(Icons.notifications),
             title: Text("Basic Notification"),
-            trailing: IconButton(onPressed: () {}, icon: Icon(Icons.cancel)),
+            trailing: IconButton(onPressed: () {
+              FlutterLocalNotification.cancelNotification(1);
+            }, icon: Icon(Icons.cancel)),
+          ),
+          ListTile(
+            onTap: () => FlutterLocalNotification.showRepeatedNotification(),
+            leading: Icon(Icons.notifications),
+            title: Text("Repeated Notification"),
+            trailing: IconButton(onPressed: () {
+              FlutterLocalNotification.cancelNotification(2);
+            }, icon: Icon(Icons.cancel)),
           ),
         ],
       ),
