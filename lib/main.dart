@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_notification/flutter_local_notification.dart';
 
+import 'notification_detail.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterLocalNotification.init();
@@ -24,8 +26,35 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  void listenToNotificationStream() {
+    FlutterLocalNotification.streamController.stream.listen((
+      notificationResponse,
+    ) {
+      print("${notificationResponse.id}");
+      print("${notificationResponse.payload}");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder:
+              (context) => NotificationDetail(response: notificationResponse),
+        ),
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listenToNotificationStream();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +67,41 @@ class HomePage extends StatelessWidget {
             onTap: () => FlutterLocalNotification.showBasicNotification(),
             leading: Icon(Icons.notifications),
             title: Text("Basic Notification"),
-            trailing: IconButton(onPressed: () {
-              FlutterLocalNotification.cancelNotification(1);
-            }, icon: Icon(Icons.cancel)),
+            trailing: IconButton(
+              onPressed: () {
+                FlutterLocalNotification.cancelNotification(1);
+              },
+              icon: Icon(Icons.cancel),
+            ),
           ),
           ListTile(
             onTap: () => FlutterLocalNotification.showRepeatedNotification(),
             leading: Icon(Icons.notifications),
             title: Text("Repeated Notification"),
-            trailing: IconButton(onPressed: () {
-              FlutterLocalNotification.cancelNotification(2);
-            }, icon: Icon(Icons.cancel)),
+            trailing: IconButton(
+              onPressed: () {
+                FlutterLocalNotification.cancelNotification(2);
+              },
+              icon: Icon(Icons.cancel),
+            ),
+          ),
+          ListTile(
+            onTap: () => FlutterLocalNotification.showScheduleNotification(),
+            leading: Icon(Icons.notifications),
+            title: Text("Schedule Notification"),
+            trailing: IconButton(
+              onPressed: () {
+                FlutterLocalNotification.cancelNotification(3);
+              },
+              icon: Icon(Icons.cancel),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              FlutterLocalNotification.flutterLocalNotificationsPlugin
+                  .cancelAll();
+            },
+            child: Text("Clear All"),
           ),
         ],
       ),
