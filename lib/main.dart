@@ -30,10 +30,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ListTile(
+            onTap: () => FlutterLocalNotification.showBasicNotification(),
             leading: Icon(Icons.notifications),
             title: Text("Basic Notification"),
             trailing: IconButton(onPressed: () {}, icon: Icon(Icons.cancel)),

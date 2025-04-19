@@ -12,12 +12,14 @@ class FlutterLocalNotification {
 
     flutterLocalNotificationsPlugin.initialize(
       settings,
-      onDidReceiveNotificationResponse: (details) {},
-      onDidReceiveBackgroundNotificationResponse: (details) {},
+      onDidReceiveNotificationResponse: onTap,
+      onDidReceiveBackgroundNotificationResponse: onTap,
     );
   }
 
-  void showBasicNotification() async {
+  static onTap(NotificationResponse notificationResponse) {}
+
+  static void showBasicNotification() async {
     NotificationDetails details = NotificationDetails(
       android: AndroidNotificationDetails("channel_1", "Basic Notification"),
     );
