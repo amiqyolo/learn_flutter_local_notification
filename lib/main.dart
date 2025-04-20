@@ -5,7 +5,14 @@ import 'notification_detail.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // await Future.wait([
+  //   FlutterLocalNotification.init(),
+  //   WorkManagerService().init(),
+  // ]);
+
   await FlutterLocalNotification.init();
+  // await WorkManagerService().init();
 
   runApp(const MyApp());
 }

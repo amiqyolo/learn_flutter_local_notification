@@ -61,7 +61,7 @@ class FlutterLocalNotification {
       "Dunia pasti berputar",
       "Tapi apakah itu sudah benar?",
       payload: "Payload Data",
-      RepeatInterval.daily,
+      RepeatInterval.everyMinute,
       details,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
