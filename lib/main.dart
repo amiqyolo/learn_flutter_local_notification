@@ -1,4 +1,8 @@
+import 'dart:developer' as developer;
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_notification/fcm_service.dart';
 import 'package:flutter_notification/flutter_local_notification.dart';
 
 import 'notification_detail.dart';
@@ -13,6 +17,8 @@ void main() async {
 
   await FlutterLocalNotification.init();
   // await WorkManagerService().init();
+
+  await Firebase.initializeApp();
 
   runApp(const MyApp());
 }
@@ -41,6 +47,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final FCMService _fcmService = FCMService();
+
   void listenToNotificationStream() {
     FlutterLocalNotification.streamController.stream.listen((
       notificationResponse,
@@ -61,6 +69,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     listenToNotificationStream();
+
+    _fcmService.requestNotificationPermission();
+    _fcmService.foregroundNotification(context);
+    _fcmService.interactMessage(context);
+    _fcmService.isRefreshToken();
+    _fcmService.getDeviceToken().then((value) => developer.log("$value"));
   }
 
   @override
